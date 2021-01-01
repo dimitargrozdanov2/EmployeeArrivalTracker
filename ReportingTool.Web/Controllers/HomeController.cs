@@ -1,25 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using ReportingTool.Services;
+using ReportingTool.Services.Contracts;
 using ReportingTool.Web.Models;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace ReportingTool.Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IServiceTokenService serviceTokenService;
+        private readonly IConfiguration configuration;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IServiceTokenService serviceTokenService, IConfiguration configuration)
         {
             _logger = logger;
+            this.serviceTokenService = serviceTokenService;
+            this.configuration = configuration;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var exampleDate = new DateTime(2016, 3, 10);
+            var callback = "http://localhost:51396/api/values";
+            var z = await this.serviceTokenService.GetServiceToken(configuration["WebServiceUrl"], exampleDate, callback);
             return View();
         }
 

@@ -13,11 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{906A7439-1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonEmployeeGenerator", "JsonEmployeeGenerator\JsonEmployeeGenerator.csproj", "{4F88BA2B-455B-407A-89EC-2A28F2702E44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingTool.Data", "ReportingTool.Data\ReportingTool.Data.csproj", "{3CAFD430-8C8D-4151-8F6E-52D56AEC3D1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportingTool.Data", "ReportingTool.Data\ReportingTool.Data.csproj", "{3CAFD430-8C8D-4151-8F6E-52D56AEC3D1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingTool.Web", "ReportingTool.Web\ReportingTool.Web.csproj", "{BE27F87D-C39A-4A09-AC00-89A7AB4B8518}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportingTool.Web", "ReportingTool.Web\ReportingTool.Web.csproj", "{BE27F87D-C39A-4A09-AC00-89A7AB4B8518}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingTool.Services", "ReportingTool.Services\ReportingTool.Services.csproj", "{79C0B9DB-2602-4457-8735-41E903B620F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportingTool.Services", "ReportingTool.Services\ReportingTool.Services.csproj", "{79C0B9DB-2602-4457-8735-41E903B620F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReportingTool.Data;
+using ReportingTool.Services;
+using ReportingTool.Services.Contracts;
 
 namespace ReportingTool.Web
 {
@@ -25,6 +27,8 @@ namespace ReportingTool.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddScoped<IServiceTokenService, ServiceTokenService>();
+
             //this may not be necessary as the string is already in the dbcontext model builder
             //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
         }
