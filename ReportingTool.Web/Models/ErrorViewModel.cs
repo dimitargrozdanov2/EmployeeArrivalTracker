@@ -1,5 +1,3 @@
-using System;
-
 namespace ReportingTool.Web.Models
 {
     public class ErrorViewModel

@@ -1,7 +1,6 @@
 ﻿using ReportingTool.Data.Models;
 using ReportingTool.Data.Repositories.Contracts;
 using ReportingTool.Services.Contracts;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

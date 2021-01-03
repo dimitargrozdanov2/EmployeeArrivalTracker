@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 using ReportingTool.Services.Contracts;
-using ReportingTool.Web.Models;
 using ReportingTool.Web.Services;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace ReportingTool.Web.Controllers
