@@ -27,6 +27,7 @@ namespace ReportingTool.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddHttpClient<IHttpClientService, HttpClientService>();
             services.AddScoped<IServiceTokenService, ServiceTokenService>();
             services.AddScoped<IArrivalService, ArrivalService>();
             services.AddScoped<IArrivalRepository, ArrivalRepository>();
