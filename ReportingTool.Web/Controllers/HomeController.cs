@@ -14,20 +14,20 @@ namespace ReportingTool.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IServiceTokenService serviceTokenService;
+        private readonly ITokenService tokenService;
         private readonly IConfiguration configuration;
         private readonly IArrivalService arrivalService;
-        public HomeController(ILogger<HomeController> logger, IServiceTokenService serviceTokenService, IConfiguration configuration, IArrivalService arrivalService)
+        public HomeController(ILogger<HomeController> logger, ITokenService tokenService, IConfiguration configuration, IArrivalService arrivalService)
         {
             _logger = logger;
-            this.serviceTokenService = serviceTokenService;
+            this.tokenService = tokenService;
             this.configuration = configuration;
             this.arrivalService = arrivalService;
         }
 
         public async Task<IActionResult> Index()
         {
-            if (await serviceTokenService.TokenAlreadyExistsAsync(Request))
+            if (await tokenService.TokenAlreadyExistsAsync(Request))
             {
                 return ArrivalsFromDatabase();
             }
@@ -36,11 +36,11 @@ namespace ReportingTool.Web.Controllers
             var callback = Url.Action("ReceiveArrivalInfoFromService", "Home", null, Request.Scheme);
             bool success = false;
 
-            var token = await this.serviceTokenService.GetServiceToken(configuration["WebServiceUrl"], exampleDate, callback);
+            var token = await this.tokenService.GetServiceToken(exampleDate, callback);
 
-            if (!String.IsNullOrEmpty(token.Token))
+            if (!string.IsNullOrEmpty(token.Token))
             {
-                await this.serviceTokenService.SavesTokenAsync(token);
+                await this.tokenService.SavesTokenAsync(token);
                 success = true;
             }
             
@@ -53,8 +53,8 @@ namespace ReportingTool.Web.Controllers
         }
         public async Task<IActionResult> ReceiveArrivalInfoFromService()
         {
-            await serviceTokenService.ReadTokenAsync(Request);
-            var arrivals = await serviceTokenService.CollectArrivals(Request);
+            await tokenService.ReadTokenAsync(Request);
+            var arrivals = await tokenService.CollectArrivals(Request);
             await arrivalService.AddRangeAsync(arrivals);
             return Ok();
         }

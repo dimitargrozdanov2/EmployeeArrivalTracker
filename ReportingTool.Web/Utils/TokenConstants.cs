@@ -7,5 +7,8 @@
         public static readonly string ClientHeaderValue = "Fourth-Monitor";
 
         public static readonly string SubscriptionUrl = "api/clients/subscribe";
+
+        public static readonly string WebSiteUrl = "http://localhost:51396/";
+
     }
 }

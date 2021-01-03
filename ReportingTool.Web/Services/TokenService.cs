@@ -1,37 +1,34 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using ReportingTool.Data;
 using ReportingTool.Data.Exceptions;
 using ReportingTool.Data.Models;
 using ReportingTool.Data.Repositories.Contracts;
-using ReportingTool.Services;
+using ReportingTool.Web.Services.Http;
 using ReportingTool.Web.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ReportingTool.Web.Services
 {
-    public class ServiceTokenService : IServiceTokenService
+    public class TokenService : ITokenService
     {
         private readonly IServiceTokenRepository serviceTokenRepository;
         private readonly IHttpClientService httpClientService;
-        private readonly IConfiguration configuration;
 
-        public ServiceTokenService(IServiceTokenRepository serviceTokenRepository, IHttpClientService httpClientService, IConfiguration configuration)
+        public TokenService(IServiceTokenRepository serviceTokenRepository, IHttpClientService httpClientService)
         {
             this.serviceTokenRepository = serviceTokenRepository;
             this.httpClientService = httpClientService;
         }
-        public async Task<ServiceToken> GetServiceToken(string websiteUrl, DateTime dayOfArrival, string callbackUrl)
+        public async Task<ServiceToken> GetServiceToken(DateTime dayOfArrival, string callbackUrl)
         {
             var token = new ServiceToken();
-            var request = $"{websiteUrl}{TokenConstants.SubscriptionUrl}?date={dayOfArrival:yyyy-MM-dd}&callback={callbackUrl}";
+            var queryString = $"?date={dayOfArrival:yyyy-MM-dd}&callback={callbackUrl}";
+            var request = $"{TokenConstants.WebSiteUrl}{TokenConstants.SubscriptionUrl}{queryString}";
             httpClientService.ConfigureDefaultRequestHeaders(h => h.Add("Accept-Client", TokenConstants.ClientHeaderValue));
-            httpClientService.BaseAddress = new Uri(websiteUrl);
+            httpClientService.BaseAddress = new Uri(TokenConstants.WebSiteUrl);
             var responseMessage = await httpClientService.GetAsync(request);
             if (responseMessage.IsSuccessStatusCode)
             {

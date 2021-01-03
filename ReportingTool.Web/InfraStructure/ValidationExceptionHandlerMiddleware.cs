@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using ReportingTool.Data.Exceptions;
 using System;
 using System.Threading.Tasks;
@@ -8,9 +9,13 @@ namespace ReportingTool.Web.Infrastructure
     public class ValidationExceptionHandlerMiddleware
     {
         private readonly RequestDelegate next;
+        private readonly ILogger<ValidationExceptionHandlerMiddleware> _logger;
 
-        public ValidationExceptionHandlerMiddleware(RequestDelegate next)
-            => this.next = next;
+        public ValidationExceptionHandlerMiddleware(RequestDelegate next, ILogger<ValidationExceptionHandlerMiddleware> logger)
+        {
+            this.next = next;
+            _logger = logger;
+        }
 
         public async Task Invoke(HttpContext context)
         {
@@ -23,10 +28,10 @@ namespace ReportingTool.Web.Infrastructure
                     context.Response.Redirect("/Error/PageNotFound");
                 }
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                await HandleExceptionAsync(context, ex);
-                //logger.Log(ex.)
+                await HandleExceptionAsync(context, exception);
+                _logger.LogError(exception, exception.Message);
             }
         }
 

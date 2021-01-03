@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace ReportingTool.Web.Services
+namespace ReportingTool.Web.Services.Http
 {
     public class HttpClientService : IHttpClientService
     {

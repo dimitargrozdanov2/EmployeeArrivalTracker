@@ -11,6 +11,7 @@ using ReportingTool.Services;
 using ReportingTool.Services.Contracts;
 using ReportingTool.Web.Infrastructure;
 using ReportingTool.Web.Services;
+using ReportingTool.Web.Services.Http;
 
 namespace ReportingTool.Web
 {
@@ -28,13 +29,10 @@ namespace ReportingTool.Web
         {
             services.AddControllersWithViews();
             services.AddHttpClient<IHttpClientService, HttpClientService>();
-            services.AddScoped<IServiceTokenService, ServiceTokenService>();
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IArrivalService, ArrivalService>();
             services.AddScoped<IArrivalRepository, ArrivalRepository>();
-            //services.AddHttpContextAccessor();
             services.AddScoped<IServiceTokenRepository, ServiceTokenRepository>();
-           // services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //this may not be necessary as the string is already in the dbcontext model builder
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 

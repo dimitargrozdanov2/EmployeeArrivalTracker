@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ReportingTool.Web.Services
 {
-    public interface IServiceTokenService
+    public interface ITokenService
     {
-        Task<ServiceToken> GetServiceToken(string websiteUrl, DateTime dayOfArrival, string callbackUrl);
+        Task<ServiceToken> GetServiceToken(DateTime dayOfArrival, string callbackUrl);
         Task<ServiceToken> ReadTokenAsync(HttpRequest request);
         Task<bool> TokenAlreadyExistsAsync(HttpRequest request);
         bool TokenHasExpired(string tokenExpireTime);
