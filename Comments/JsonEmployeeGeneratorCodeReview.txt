@@ -1,0 +1,10 @@
+1)JsonEmployee should be a class in a separate file
+2)It is good to have separate methods for each separate function to follow SingleResponsibility.
+One of the methods could be ReadEmployeeInfo and the other SaveEmployeesInfoToJsonFile. 
+3) The main Program class is mostly static so it is very hard to unit test.
+I would just create an entry point for my application and have a separate class which has injected interfaces
+Something similar to this:
+https://stackoverflow.com/questions/48413055/correct-use-of-autofac-in-c-sharp-console-application/48413665#48413665
+4) also wrap reading/writing operations in using so the file does not appear to be executed by another process and dispose of the operation
+5) string str is unnecessary long, I would use stringbuilder here
+6) try catch is a must. Operations such as reading and writing can easily break. 
