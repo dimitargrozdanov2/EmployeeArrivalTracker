@@ -1,6 +1,6 @@
-﻿namespace ReportingTool.Services.Utils
+﻿namespace ReportingTool.Web.Utils
 {
-    public static class TokenConstants
+    public class TokenConstants
     {
         public static readonly string ServiceTokenHeader = "X-Fourth-Token";
 
