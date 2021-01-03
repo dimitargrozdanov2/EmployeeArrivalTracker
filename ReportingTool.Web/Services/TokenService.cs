@@ -38,10 +38,7 @@ namespace ReportingTool.Web.Services
             return token;
         }
 
-        public async Task SavesTokenAsync(ServiceToken token)
-        {
-            await this.serviceTokenRepository.AddAsync(token);
-        }
+        public async Task SavesTokenAsync(ServiceToken token) => await this.serviceTokenRepository.AddAsync(token);
 
         public async Task<IEnumerable<Arrival>> CollectArrivals(HttpRequest request)
         {

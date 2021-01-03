@@ -9,12 +9,12 @@ namespace ReportingTool.Web.Infrastructure
     public class ValidationExceptionHandlerMiddleware
     {
         private readonly RequestDelegate next;
-        private readonly ILogger<ValidationExceptionHandlerMiddleware> _logger;
+        private readonly ILogger<ValidationExceptionHandlerMiddleware> logger;
 
         public ValidationExceptionHandlerMiddleware(RequestDelegate next, ILogger<ValidationExceptionHandlerMiddleware> logger)
         {
             this.next = next;
-            _logger = logger;
+            this.logger = logger;
         }
 
         public async Task Invoke(HttpContext context)
@@ -31,7 +31,7 @@ namespace ReportingTool.Web.Infrastructure
             catch (Exception exception)
             {
                 await HandleExceptionAsync(context, exception);
-                _logger.LogError(exception, exception.Message);
+                logger.LogError(exception, exception.Message);
             }
         }
 

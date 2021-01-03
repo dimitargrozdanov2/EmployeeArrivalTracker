@@ -13,15 +13,11 @@ namespace ReportingTool.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly ITokenService tokenService;
-        private readonly IConfiguration configuration;
         private readonly IArrivalService arrivalService;
-        public HomeController(ILogger<HomeController> logger, ITokenService tokenService, IConfiguration configuration, IArrivalService arrivalService)
+        public HomeController(ITokenService tokenService, IArrivalService arrivalService)
         {
-            _logger = logger;
             this.tokenService = tokenService;
-            this.configuration = configuration;
             this.arrivalService = arrivalService;
         }
 
@@ -51,6 +47,7 @@ namespace ReportingTool.Web.Controllers
 
             return ArrivalsFromDatabase();
         }
+
         public async Task<IActionResult> ReceiveArrivalInfoFromService()
         {
             await tokenService.ReadTokenAsync(Request);
@@ -58,15 +55,10 @@ namespace ReportingTool.Web.Controllers
             await arrivalService.AddRangeAsync(arrivals);
             return Ok();
         }
+
         public IActionResult Privacy()
         {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         private IActionResult ArrivalsFromDatabase()
