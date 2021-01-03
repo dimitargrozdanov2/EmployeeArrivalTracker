@@ -1,0 +1,7 @@
+1) I would rework new Simulator.Simulate() to be an interface ISimulatorservice that is injected in the controller.
+The simulatorservice will inherit an interface and will have the implementation. Both of them can be in a separate project Services to separate responsibilities(business logic should not be in the controller). 
+2) Since we will use dependancy injection we can download Autofac to register controllers and services.
+3) Classes in separate files
+4) With a wrong provided callback, a UriFormatException is thrown. This needs to be caught.
+5)In Simulator Constructor there is logic on the employees. A class has a potential for few exceptions with streamreader and serilization. This needs to be handled and this should definitely not happen in the constructor of the class.
+6) The variable 'ex' is declared but never used in Simulate method in the Simulator class.
