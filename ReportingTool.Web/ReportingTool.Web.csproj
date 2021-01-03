@@ -18,6 +18,10 @@
     <ProjectReference Include="..\ReportingTool.Services\ReportingTool.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Http\" />
+  </ItemGroup>
+
 
 
 </Project>

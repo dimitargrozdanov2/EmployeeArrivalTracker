@@ -9,7 +9,7 @@ using ReportingTool.Data.Repositories;
 using ReportingTool.Data.Repositories.Contracts;
 using ReportingTool.Services;
 using ReportingTool.Services.Contracts;
-using ReportingTool.Web.InfraStructure;
+using ReportingTool.Web.Infrastructure;
 using ReportingTool.Web.Services;
 
 namespace ReportingTool.Web

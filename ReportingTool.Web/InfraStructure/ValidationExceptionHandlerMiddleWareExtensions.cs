@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace ReportingTool.Web.InfraStructure
+namespace ReportingTool.Web.Infrastructure
 {
     public static class ValidationExceptionHandlerMiddleWareExtensions
     {

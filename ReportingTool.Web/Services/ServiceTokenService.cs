@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using ReportingTool.Data;
 using ReportingTool.Data.Exceptions;
@@ -18,8 +19,9 @@ namespace ReportingTool.Web.Services
     {
         private readonly IServiceTokenRepository serviceTokenRepository;
         private readonly IHttpClientService httpClientService;
+        private readonly IConfiguration configuration;
 
-        public ServiceTokenService(IServiceTokenRepository serviceTokenRepository, IHttpClientService httpClientService)
+        public ServiceTokenService(IServiceTokenRepository serviceTokenRepository, IHttpClientService httpClientService, IConfiguration configuration)
         {
             this.serviceTokenRepository = serviceTokenRepository;
             this.httpClientService = httpClientService;
@@ -27,12 +29,9 @@ namespace ReportingTool.Web.Services
         public async Task<ServiceToken> GetServiceToken(string websiteUrl, DateTime dayOfArrival, string callbackUrl)
         {
             var token = new ServiceToken();
-            //using HttpClient client = new HttpClient();
-            var request = $"{websiteUrl}{TokenConstants.SubscriptionUrl}?date={dayOfArrival.ToString("yyyy-MM-dd")}&callback={callbackUrl}";
-            httpClientService.ConfigureDefaultRequestHeaders(h => h.Add("Accept-Client", TokenConstants.ClientHeaderValue);
+            var request = $"{websiteUrl}{TokenConstants.SubscriptionUrl}?date={dayOfArrival:yyyy-MM-dd}&callback={callbackUrl}";
+            httpClientService.ConfigureDefaultRequestHeaders(h => h.Add("Accept-Client", TokenConstants.ClientHeaderValue));
             httpClientService.BaseAddress = new Uri(websiteUrl);
-            //client.BaseAddress = new Uri(websiteUrl);
-            //client.DefaultRequestHeaders.Add("Accept-Client", TokenConstants.ClientHeaderValue);
             var responseMessage = await httpClientService.GetAsync(request);
             if (responseMessage.IsSuccessStatusCode)
             {

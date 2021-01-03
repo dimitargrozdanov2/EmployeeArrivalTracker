@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using ReportingTool.Data.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace ReportingTool.Web.InfraStructure
+namespace ReportingTool.Web.Infrastructure
 {
     public class ValidationExceptionHandlerMiddleware
     {
@@ -28,6 +26,7 @@ namespace ReportingTool.Web.InfraStructure
             catch (Exception ex)
             {
                 await HandleExceptionAsync(context, ex);
+                //logger.Log(ex.)
             }
         }
 
