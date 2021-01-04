@@ -1,6 +1,6 @@
 This project is  reporting tool that provides information on a table with data about the time employees arrive to the building.
 
-As the project is built on Database-First appraoch, a backup of the database is added under a folder database backup.
+As the project is built on Database-First approach, a backup of the database is added under a folder database backup.
 
 In the folder Comments there are 2 files with recommendations.
 
