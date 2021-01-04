@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ReportingTool.Data.Models;
 using ReportingTool.Services.Contracts;
 using ReportingTool.Web.Services;
+using ReportingTool.Web.Utils;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,11 +20,12 @@ namespace ReportingTool.Web.Controllers
             this.arrivalService = arrivalService;
         }
 
-        public async Task<IActionResult> Index(string sortOrder, string employeeIdFilter, string whenFilter)
+        public async Task<IActionResult> Index(string sortOrder, string employeeIdFilter, string whenFilter, string currentFilter,
+ int? pageNumber)
         {
             if (await tokenService.TokenAlreadyExistsAsync(Request))
             {
-                return await ArrivalsFromDatabase(sortOrder, employeeIdFilter, whenFilter);
+                return await ArrivalsFromDatabase(sortOrder, employeeIdFilter, whenFilter, currentFilter, pageNumber);
             }
 
             var exampleDate = new DateTime(2016, 3, 10);
@@ -42,7 +45,7 @@ namespace ReportingTool.Web.Controllers
                 return RedirectToAction("PageNotFound", "Error");
             }
 
-            return await ArrivalsFromDatabase(sortOrder, employeeIdFilter, whenFilter);
+            return await ArrivalsFromDatabase(sortOrder, employeeIdFilter, whenFilter, currentFilter, pageNumber);
         }
 
         public async Task<IActionResult> ReceiveArrivalInfoFromService()
@@ -58,7 +61,8 @@ namespace ReportingTool.Web.Controllers
             return View();
         }
 
-        private async Task<IActionResult> ArrivalsFromDatabase(string sortOrder, string employeeIdFilter, string whenFilter)
+        private async Task<IActionResult> ArrivalsFromDatabase(string sortOrder, string employeeIdFilter, string whenFilter, string currentFilter,
+ int? pageNumber)
         {
             ViewData["EmployeeIdParm"] = sortOrder == "EmployeeId" ? "employeeid_desc" : "EmployeeId";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
@@ -70,11 +74,23 @@ namespace ReportingTool.Web.Controllers
             if (!string.IsNullOrEmpty(employeeIdFilter))
             {
                 arrivals = arrivals.Where(s => s.EmployeeId.Equals(int.Parse(employeeIdFilter)));
+                pageNumber = 1;
+
+            }
+            else
+            {
+                employeeIdFilter = currentFilter;
             }
 
             if (!string.IsNullOrEmpty(whenFilter))
             {
                 arrivals = arrivals.Where(s => s.When.Contains(whenFilter));
+                pageNumber = 1;
+            }
+
+            else
+            {
+                whenFilter = currentFilter;
             }
             arrivals = sortOrder switch
             {
@@ -84,7 +100,9 @@ namespace ReportingTool.Web.Controllers
                 "date_desc" => arrivals.OrderByDescending(a => a.When),
                 _ => arrivals,
             };
-            return View(await arrivals.AsNoTracking().ToListAsync());
+            int pageSize = 5;
+            return View(await PaginatedList<Arrival>.CreateAsync(arrivals.AsNoTracking(), pageNumber ?? 1, pageSize));
+            //return View(await arrivals.AsNoTracking().ToListAsync());
         }
 
     }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ReportingTool.Data.Models.Arrival>
+﻿@model ReportingTool.Web.Utils.PaginatedList<ReportingTool.Data.Models.Arrival>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -10,11 +10,11 @@
     <div class="form-actions no-color">
         <p>
             Exact EmployeeId <input type="text" name="EmployeeIdFilter" value="@ViewData["EmployeeIdFilter"]" />
-            <input type="submit" value="Search" class="btn btn-primary" /> 
+            <input type="submit" value="Search" class="btn btn-primary" />
         </p>
         <p>
             Exact Date:<input type="text" name="WhenFilter" value="@ViewData["WhenFilter"]" />
-            <input type="submit" value="Search" class="btn btn-outline-danger" /> 
+            <input type="submit" value="Search" class="btn btn-outline-danger" />
         </p>
         <a asp-action="Index">Back to Full List</a>
 
@@ -25,11 +25,11 @@
     <thead>
         <tr class="bg-primary">
             <th scope="col">
-                <a class= "btn btn-primary btn-lg active" role="button" asp-action="Index" asp-route-sortOrder="@ViewData["EmployeeIdParm"]">@Html.DisplayNameFor(model => model.EmployeeId)</a>
+                <a class="btn btn-primary btn-lg active" role="button" asp-action="Index" asp-route-sortOrder="@ViewData["EmployeeIdParm"]">EmployeeId</a>
             </th>
 
             <th scope="col">
-                <a class="btn btn-primary btn-lg active" role="button" asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.When)</a>
+                <a class="btn btn-primary btn-lg active" role="button" asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">When</a>
             </th>
         </tr>
     </thead>
@@ -37,14 +37,31 @@
 
         @foreach (var item in Model)
         {
-        <tr>
-            <td>@item.EmployeeId</td>
-            <td>@item.When</td>
-        </tr>
-    }
-        </tbody>
-    </table>
- 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+            <tr>
+                <td>@item.EmployeeId</td>
+                <td>@item.When</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
