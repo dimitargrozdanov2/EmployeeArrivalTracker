@@ -10,3 +10,4 @@ Things that can be improved in version 2 of this project:
 3. Ajax in order to not reload the page
 4. Another alternative which could be looked into is Store the token in the session.
 5. Pagination can be improved and filtration can be improved to work using DateTime and not text field.
+6. More Unit Tests.
