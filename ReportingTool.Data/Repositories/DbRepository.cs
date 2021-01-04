@@ -34,8 +34,8 @@ namespace ReportingTool.Data.Repositories
             return await dbContext.Set<TEntity>().FindAsync(id);
         }
 
-        public virtual async Task<ICollection<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null)
-            => (filter != null ? await dbContext.Set<TEntity>().Where(filter).ToListAsync() : await dbContext.Set<TEntity>().ToListAsync());
+        public virtual IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
+            => (filter != null ? dbContext.Set<TEntity>().Where(filter) : dbContext.Set<TEntity>());
 
         public virtual async Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> filter) 
             => await dbContext.Set<TEntity>().SingleOrDefaultAsync(filter);

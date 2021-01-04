@@ -2,6 +2,7 @@
 using ReportingTool.Data.Repositories.Contracts;
 using ReportingTool.Services.Contracts;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ReportingTool.Services
@@ -17,7 +18,7 @@ namespace ReportingTool.Services
 
         public async Task AddRangeAsync(IEnumerable<Arrival> arrivals) => await arrivalRepository.AddRangeAsync(arrivals);
 
-        public async Task<ICollection<Arrival>> GetAllAsync() => await arrivalRepository.GetAllAsync();
+        public IQueryable<Arrival> GetAll() => arrivalRepository.GetAll();
 
         public async Task DeleteRangeAsync(IEnumerable<Arrival> arrivals) => await arrivalRepository.DeleteRangeAsync(arrivals);
 

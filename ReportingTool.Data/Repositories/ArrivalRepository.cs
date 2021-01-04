@@ -8,5 +8,6 @@ namespace ReportingTool.Data.Repositories
         public ArrivalRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
         }
+
     }
 }

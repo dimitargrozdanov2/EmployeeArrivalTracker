@@ -1,5 +1,6 @@
 ﻿using ReportingTool.Data.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ReportingTool.Services.Contracts
@@ -10,6 +11,6 @@ namespace ReportingTool.Services.Contracts
 
         Task DeleteRangeAsync(IEnumerable<Arrival> arrivals);
 
-        Task<ICollection<Arrival>> GetAllAsync();
+        IQueryable<Arrival> GetAll();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace ReportingTool.Data.Repositories.Contracts
     {
         Task<TEntity> GetAsync(int primaryKey);
 
-        Task<ICollection<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null);
+        IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null);
 
         Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> filter);
 

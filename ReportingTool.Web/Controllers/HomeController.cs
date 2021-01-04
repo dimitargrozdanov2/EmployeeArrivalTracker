@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ReportingTool.Services.Contracts;
 using ReportingTool.Web.Services;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ReportingTool.Web.Controllers
@@ -16,11 +18,11 @@ namespace ReportingTool.Web.Controllers
             this.arrivalService = arrivalService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
             if (await tokenService.TokenAlreadyExistsAsync(Request))
             {
-                return ArrivalsFromDatabase();
+                return await ArrivalsFromDatabase(sortOrder);
             }
 
             var exampleDate = new DateTime(2016, 3, 10);
@@ -40,7 +42,7 @@ namespace ReportingTool.Web.Controllers
                 return View("Error");
             }
 
-            return ArrivalsFromDatabase();
+            return await ArrivalsFromDatabase(sortOrder);
         }
 
         public async Task<IActionResult> ReceiveArrivalInfoFromService()
@@ -56,10 +58,21 @@ namespace ReportingTool.Web.Controllers
             return View();
         }
 
-        private IActionResult ArrivalsFromDatabase()
+        private async Task<IActionResult> ArrivalsFromDatabase(string sortOrder)
         {
-            //TO DO :get arrivals and return view with arrivals sorted and paginated.
-            return null;
+            ViewData["EmployeeIdParm"] = sortOrder == "EmployeeId" ? "employeeid_desc" : "EmployeeId";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            var arrivals = this.arrivalService.GetAll();
+
+            arrivals = sortOrder switch
+            {
+                "EmployeeId" => arrivals.OrderBy(a => a.EmployeeId),
+                "employeeid_desc" => arrivals.OrderByDescending(a => a.EmployeeId),
+                "Date" => arrivals.OrderBy(a => a.When),
+                "date_desc" => arrivals.OrderByDescending(a => a.When),
+                _ => arrivals,
+            };
+            return View(await arrivals.AsNoTracking().ToListAsync());
         }
 
     }

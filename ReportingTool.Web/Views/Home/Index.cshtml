@@ -1,8 +1,35 @@
-﻿@{
+﻿@model IEnumerable<ReportingTool.Data.Models.Arrival>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1>Arrivals</h1>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr class="bg-primary">
+            <th scope="col">
+                <a class= "btn btn-primary btn-lg active" role="button" asp-action="Index" asp-route-sortOrder="@ViewData["EmployeeIdParm"]">@Html.DisplayNameFor(model => model.EmployeeId)</a>
+            </th>
+
+            <th scope="col">
+                <a class="btn btn-primary btn-lg active" role="button" asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.When)</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.EmployeeId</td>
+            <td>@item.When</td>
+        </tr>
+    }
+        </tbody>
+    </table>
+ 
+<div>
+    <a asp-action="Index">Back to List</a>
 </div>
