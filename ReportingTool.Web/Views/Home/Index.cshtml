@@ -6,6 +6,21 @@
 
 <h1>Arrivals</h1>
 
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Exact EmployeeId <input type="text" name="EmployeeIdFilter" value="@ViewData["EmployeeIdFilter"]" />
+            <input type="submit" value="Search" class="btn btn-primary" /> 
+        </p>
+        <p>
+            Exact Date:<input type="text" name="WhenFilter" value="@ViewData["WhenFilter"]" />
+            <input type="submit" value="Search" class="btn btn-outline-danger" /> 
+        </p>
+        <a asp-action="Index">Back to Full List</a>
+
+    </div>
+</form>
+
 <table class="table table-striped table-bordered">
     <thead>
         <tr class="bg-primary">
