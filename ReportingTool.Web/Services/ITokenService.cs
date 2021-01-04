@@ -8,7 +8,7 @@ namespace ReportingTool.Web.Services
 {
     public interface ITokenService
     {
-        Task<ServiceToken> GetServiceToken(DateTime dayOfArrival, string callbackUrl);
+        Task<ServiceToken> GetServiceToken(DateTime dayOfArrival);
 
         Task<ServiceToken> ReadTokenAsync(HttpRequest request);
 

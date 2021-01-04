@@ -10,5 +10,7 @@
 
         public static readonly string WebSiteUrl = "http://localhost:51396/";
 
+        public static readonly string CallbackUrl = "http://localhost:62243/Home/ReceiveArrivalInfoFromService";
+
     }
 }

@@ -22,10 +22,10 @@ namespace ReportingTool.Web.Services
             this.serviceTokenRepository = serviceTokenRepository;
             this.httpClientService = httpClientService;
         }
-        public async Task<ServiceToken> GetServiceToken(DateTime dayOfArrival, string callbackUrl)
+        public async Task<ServiceToken> GetServiceToken(DateTime dayOfArrival)
         {
             var token = new ServiceToken();
-            var queryString = $"?date={dayOfArrival:yyyy-MM-dd}&callback={callbackUrl}";
+            var queryString = $"?date={dayOfArrival:yyyy-MM-dd}&callback={TokenConstants.CallbackUrl}";
             var request = $"{TokenConstants.WebSiteUrl}{TokenConstants.SubscriptionUrl}{queryString}";
             httpClientService.ConfigureDefaultRequestHeaders(h => h.Add("Accept-Client", TokenConstants.ClientHeaderValue));
             httpClientService.BaseAddress = new Uri(TokenConstants.WebSiteUrl);

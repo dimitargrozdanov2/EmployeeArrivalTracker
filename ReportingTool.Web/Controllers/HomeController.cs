@@ -29,12 +29,11 @@ namespace ReportingTool.Web.Controllers
             }
 
             var exampleDate = new DateTime(2016, 3, 10);
-            var callback = Url.Action("ReceiveArrivalInfoFromService", "Home", null, Request.Scheme);
             bool success = false;
 
-            var token = await this.tokenService.GetServiceToken(exampleDate, callback);
+            var token = await this.tokenService.GetServiceToken(exampleDate);
 
-            if (!string.IsNullOrEmpty(token.Token))
+            if (token != null && !string.IsNullOrEmpty(token.Token))
             {
                 await this.tokenService.SavesTokenAsync(token);
                 success = true;
