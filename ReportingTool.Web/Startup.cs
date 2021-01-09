@@ -10,8 +10,10 @@ using ReportingTool.Data.Repositories.Contracts;
 using ReportingTool.Services;
 using ReportingTool.Services.Contracts;
 using ReportingTool.Web.Infrastructure;
+using ReportingTool.Web.Middleware;
 using ReportingTool.Web.Services;
 using ReportingTool.Web.Services.Http;
+using System;
 
 namespace ReportingTool.Web
 {
@@ -27,8 +29,17 @@ namespace ReportingTool.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(100);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             services.AddControllersWithViews();
             services.AddHttpClient<IHttpClientService, HttpClientService>();
+            services.AddHttpContextAccessor();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IArrivalService, ArrivalService>();
             services.AddScoped<IArrivalRepository, ArrivalRepository>();
@@ -54,6 +65,10 @@ namespace ReportingTool.Web
             app.UseRouting();
 
             app.UseAuthorization();
+
+            // Add Session And Middleware Here.
+            app.UseSession();
+            app.UseServiceToken();
 
             app.UseEndpoints(endpoints =>
             {

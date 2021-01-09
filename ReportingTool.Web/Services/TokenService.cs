@@ -8,6 +8,8 @@ using ReportingTool.Web.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ReportingTool.Web.Services
@@ -16,11 +18,13 @@ namespace ReportingTool.Web.Services
     {
         private readonly IServiceTokenRepository serviceTokenRepository;
         private readonly IHttpClientService httpClientService;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public TokenService(IServiceTokenRepository serviceTokenRepository, IHttpClientService httpClientService)
+        public TokenService(IServiceTokenRepository serviceTokenRepository, IHttpClientService httpClientService, IHttpContextAccessor httpContextAccessor)
         {
             this.serviceTokenRepository = serviceTokenRepository;
             this.httpClientService = httpClientService;
+            this.httpContextAccessor = httpContextAccessor;
         }
         public async Task<ServiceToken> GetServiceToken(DateTime dayOfArrival)
         {
@@ -36,6 +40,24 @@ namespace ReportingTool.Web.Services
                 token = JsonConvert.DeserializeObject<ServiceToken>(tokenInfo);
             }
             return token;
+        }
+
+        public void TryGetTokenFromSession(string token)
+        {
+            if (!this.httpContextAccessor.HttpContext.Session.TryGetValue("ServiceToken", out byte[] value))
+            {
+                this.httpContextAccessor.HttpContext.Session.SetString("ServiceToken", token);
+                this.httpContextAccessor.HttpContext.Session.SetString("ServiceTokenExpiry", token);
+
+            }
+            else
+            {
+                // Get The Token.
+                string result = Encoding.UTF8.GetString(value);
+                this.httpContextAccessor.HttpContext.Session.SetString("ServiceToken", result);
+
+                // TODO: Validate Here Or In The Middleware.
+            }
         }
 
         public async Task SavesTokenAsync(ServiceToken token) => await this.serviceTokenRepository.AddAsync(token);
@@ -70,11 +92,16 @@ namespace ReportingTool.Web.Services
             if (request.Headers.ContainsKey(TokenConstants.ServiceTokenHeader))
             {
                 var tokenValue = request.Headers[TokenConstants.ServiceTokenHeader].ToString();
-                var tokenModel = await this.serviceTokenRepository.GetSingleAsync(t => t.Token == tokenValue);
-                if (!TokenHasExpired(tokenModel.Expires))
-                {
-                    return tokenModel;
-                }
+                //var tokenModel = await this.serviceTokenRepository.GetSingleAsync(t => t.Token == tokenValue);
+
+                var y = httpContextAccessor.HttpContext.Session.Keys.ToList();
+
+                this.TryGetTokenFromSession(tokenValue);
+
+                //if (!TokenHasExpired(tokenModel.Expires))
+                //{
+                //    return tokenModel;
+                //}
             }
             return null;
         }

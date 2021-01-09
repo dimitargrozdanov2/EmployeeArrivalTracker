@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
@@ -34,10 +36,7 @@ namespace ReportingTool.Data.Models
             {
                 entity.ToTable("Arrival");
 
-                entity.Property(e => e.When)
-                    .IsRequired()
-                    .HasMaxLength(33)
-                    .IsUnicode(false);
+                entity.Property(e => e.When).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<ServiceToken>(entity =>

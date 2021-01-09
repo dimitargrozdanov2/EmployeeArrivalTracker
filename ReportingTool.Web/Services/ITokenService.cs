@@ -19,5 +19,7 @@ namespace ReportingTool.Web.Services
         Task<IEnumerable<Arrival>> CollectArrivals(HttpRequest request);
 
         Task SavesTokenAsync(ServiceToken token);
+
+        void TryGetTokenFromSession(string token);
     }
 }

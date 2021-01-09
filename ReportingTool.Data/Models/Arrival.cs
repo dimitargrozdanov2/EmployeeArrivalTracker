@@ -1,4 +1,7 @@
-﻿#nullable disable
+﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
 
 namespace ReportingTool.Data.Models
 {
@@ -6,6 +9,6 @@ namespace ReportingTool.Data.Models
     {
         public int Id { get; set; }
         public int EmployeeId { get; set; }
-        public string When { get; set; }
+        public DateTime When { get; set; }
     }
 }

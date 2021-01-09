@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ReportingTool.Data.Models;
 using ReportingTool.Services.Contracts;
 using ReportingTool.Web.Services;
 using ReportingTool.Web.Utils;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,7 +34,9 @@ namespace ReportingTool.Web.Controllers
             bool success = false;
 
             var token = await this.tokenService.GetServiceToken(exampleDate);
+            var f = HttpContext.Session.Keys.ToList();
 
+            this.tokenService.TryGetTokenFromSession(token.Token);
             if (token != null && !string.IsNullOrEmpty(token.Token))
             {
                 await this.tokenService.SavesTokenAsync(token);
@@ -43,7 +47,7 @@ namespace ReportingTool.Web.Controllers
             {
                 return RedirectToAction("PageNotFound", "Error");
             }
-
+            var name = HttpContext.Session.GetString("ServiceToken");
             return await ArrivalsFromDatabase(sortOrder, employeeIdFilter, whenFilter, currentFilter, pageNumber);
         }
 
@@ -51,6 +55,7 @@ namespace ReportingTool.Web.Controllers
         {
             await tokenService.ReadTokenAsync(Request);
             var arrivals = await tokenService.CollectArrivals(Request);
+            var name = HttpContext.Session.GetString("ServiceToken");
             await arrivalService.AddRangeAsync(arrivals);
             return Ok();
         }
@@ -83,7 +88,9 @@ namespace ReportingTool.Web.Controllers
 
             if (!string.IsNullOrEmpty(whenFilter))
             {
-                arrivals = arrivals.Where(s => s.When.Contains(whenFilter));
+                var tokenExpireDateTime = DateTime.Parse(whenFilter);
+                var y = DateTime.Parse(whenFilter);
+                arrivals = arrivals.Where(s => s.When.CompareTo(tokenExpireDateTime) <= -1);
                 pageNumber = 1;
             }
 
@@ -91,6 +98,7 @@ namespace ReportingTool.Web.Controllers
             {
                 whenFilter = currentFilter;
             }
+
             arrivals = sortOrder switch
             {
                 "EmployeeId" => arrivals.OrderBy(a => a.EmployeeId),
