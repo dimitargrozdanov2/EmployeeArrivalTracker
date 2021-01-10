@@ -78,7 +78,7 @@ namespace ReportingTool.Web.Controllers
             if (!string.IsNullOrEmpty(employeeIdFilter))
             {
                 arrivals = arrivals.Where(s => s.EmployeeId.Equals(int.Parse(employeeIdFilter)));
-                pageNumber = 1;
+                pageNumber ??= 1;
 
             }
             else
@@ -91,7 +91,7 @@ namespace ReportingTool.Web.Controllers
                 var tokenExpireDateTime = DateTime.Parse(whenFilter);
                 var y = DateTime.Parse(whenFilter);
                 arrivals = arrivals.Where(s => s.When.CompareTo(tokenExpireDateTime) <= -1);
-                pageNumber = 1;
+                pageNumber ??= 1;
             }
 
             else

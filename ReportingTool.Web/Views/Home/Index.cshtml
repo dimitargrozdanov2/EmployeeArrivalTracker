@@ -56,6 +56,8 @@
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-employeeIdFilter="@ViewData["EmployeeIdFilter"]"
+   asp-route-whenFilter="@ViewData["WhenFilter"]"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    class="btn btn-default @prevDisabled">
     Previous
@@ -63,6 +65,8 @@
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-employeeIdFilter="@ViewData["EmployeeIdFilter"]"
+   asp-route-whenFilter="@ViewData["WhenFilter"]"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    class="btn btn-default @nextDisabled">
     Next
