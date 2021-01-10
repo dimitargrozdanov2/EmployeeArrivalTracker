@@ -13,4 +13,4 @@ Things that can be improved in version 2 of this project:
 6. More Unit Tests.
 
 Version 2 changes:
-1. Pagination now works with DateTime and pagination shows results of 20 per page. Previous and Next pages now works correctly.
+1. Pagination now works with DateTime and pagination shows results of 20 per page. Previous and Next pages now work correctly.
