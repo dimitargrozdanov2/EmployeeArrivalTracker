@@ -11,3 +11,6 @@ Things that can be improved in version 2 of this project:
 4. Another alternative which could be looked into is Store the token in the session.
 5. Pagination can be improved and filtration can be improved to work using DateTime and not text field.
 6. More Unit Tests.
+
+Version 2 changes:
+Pagination now works with DateTime and pagination shows results of 20 per page. Previous and Next pages now works correctly.
