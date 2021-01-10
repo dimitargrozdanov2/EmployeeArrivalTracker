@@ -107,7 +107,7 @@ namespace ReportingTool.Web.Controllers
                 "date_desc" => arrivals.OrderByDescending(a => a.When),
                 _ => arrivals,
             };
-            int pageSize = 5;
+            int pageSize = 20;
             return View(await PaginatedList<Arrival>.CreateAsync(arrivals.AsNoTracking(), pageNumber ?? 1, pageSize));
             //return View(await arrivals.AsNoTracking().ToListAsync());
         }
