@@ -14,3 +14,5 @@ Things that can be improved in version 2 of this project:
 
 Version 2 changes:
 1. Pagination now works with DateTime and pagination shows results of 20 per page. Previous and Next pages now work correctly.
+2. Session cannot be stored in the token due to a new httpcontext instance. Another option is to use InMemory Database to store the token in Redis and set ttl for each token.
+3. DateTime can be implemented with a range (from and to) and return the result which covers the range.
